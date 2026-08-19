@@ -1,0 +1,6 @@
+Django
+djangorestframework
+wagtail
+psycopg2-binary
+django-storages
+python-dotenv

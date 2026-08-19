@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+*.sqlite3
+staticfiles/
+media/
+.DS_Store
+install_log.txt
+.claude/scheduled_tasks.lock
