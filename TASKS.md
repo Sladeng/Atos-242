@@ -27,14 +27,16 @@ Backlog sequencial. Cada sessão do Claude Code deve atacar 1–3 itens marcados
 - [ ] Testes unitários: regra "estoque não fica negativo", "digital não tem frete"
 
 ## Fase 2.5 — CRM e Financeiro (MVP)
-- [ ] Model `Customer` (adicionar campos `name`, `phone`, `notes` — ver DATA_MODEL.md)
-- [ ] Model `Interaction`
-- [ ] Model `AccountPayable`
-- [ ] Model `AccountReceivable`
-- [ ] Migrations + admin para os models acima
+- [x] Model `Customer` (adicionar campos `name`, `phone`, `notes` — ver DATA_MODEL.md)
+- [x] Model `Interaction`
+- [x] Model `AccountPayable`
+- [x] Model `AccountReceivable` (exigiu criar `orders.Order` mínimo antes — ver nota em DATA_MODEL.md)
+- [x] Migrations + admin para os models acima
 - [ ] Signal/hook: `Order.status → paid` cria `AccountReceivable` automaticamente
 - [ ] Tela/endpoint de dashboard: total a receber, total a pagar, receita do mês, contas vencidas
 - [ ] Testes: pagamento de pedido não duplica `AccountReceivable`; conta vencida aparece como `overdue`
+
+> Pendente de validar com Postgres real (Docker não instalado na máquina de dev usada até agora) — `manage.py migrate` ainda não foi confirmado de ponta a ponta.
 
 ## Fase 3 — API (DRF)
 - [ ] Serializers de `Product` e `Category`

@@ -90,16 +90,18 @@
 | expires_after_days | int | ex: 7 a partir da compra |
 
 ## Order
-| Campo | Tipo |
-|---|---|
-| id | UUID/PK |
-| customer | FK Customer |
-| customer_email | string |
-| status | enum: `pending`, `paid`, `shipped`, `completed`, `cancelled` |
-| shipping_address | FK Address (null se só digital) |
-| shipping_cost | decimal (0 se só digital) |
-| total | decimal |
-| created_at | datetime |
+| Campo | Tipo | Notas |
+|---|---|---|
+| id | UUID/PK | |
+| customer | FK Customer | |
+| customer_email | string | |
+| status | enum: `pending`, `paid`, `shipped`, `completed`, `cancelled` | |
+| shipping_address | FK Address (null se só digital) | **Pendente**: model `Address` nunca foi definido aqui. Implementado por ora como `TextField` livre (`contemplart/orders/models.py`) — ajustar quando o model `Address` for desenhado (Fase 2 completa) |
+| shipping_cost | decimal (0 se só digital) | |
+| total | decimal | |
+| created_at | datetime | |
+
+> Nota: só o essencial de `Order` foi implementado até agora (o suficiente pra `AccountReceivable.order` referenciar) — itens de pedido, checkout, pagamento e entrega digital (Fase 2 completa do TASKS.md) ainda não existem.
 
 ## OrderItem
 | Campo | Tipo |
