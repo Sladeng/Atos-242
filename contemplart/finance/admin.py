@@ -5,13 +5,13 @@ from .models import AccountPayable, AccountReceivable
 
 @admin.register(AccountPayable)
 class AccountPayableAdmin(admin.ModelAdmin):
-    list_display = ('description', 'category', 'amount', 'due_date', 'status')
-    list_filter = ('category', 'status')
-    search_fields = ('description',)
+    list_display = ('descricao', 'categoria', 'valor', 'data_vencimento', 'status')
+    list_filter = ('categoria', 'status')
+    search_fields = ('descricao',)
 
 
 @admin.register(AccountReceivable)
 class AccountReceivableAdmin(admin.ModelAdmin):
-    list_display = ('description', 'order', 'amount', 'due_date', 'status')
+    list_display = ('descricao', 'pedido', 'valor', 'data_vencimento', 'status')
     list_filter = ('status',)
-    search_fields = ('description',)
+    search_fields = ('descricao',)

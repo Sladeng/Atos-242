@@ -13,13 +13,13 @@ class Customer(models.Model):
     ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
+    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    nome = models.CharField(max_length=255)
     email = models.EmailField()
-    phone = models.CharField(max_length=30, blank=True)
-    customer_type = models.CharField(max_length=20, choices=CUSTOMER_TYPE_CHOICES, default=RETAIL)
-    notes = models.TextField(blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    telefone = models.CharField(max_length=30, blank=True)
+    tipo_cliente = models.CharField(max_length=20, choices=CUSTOMER_TYPE_CHOICES, default=RETAIL)
+    observacoes = models.TextField(blank=True)
+    criado_em = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return self.nome

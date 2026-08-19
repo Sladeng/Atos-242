@@ -20,10 +20,13 @@ Leia, nesta ordem:
 - Stripe para pagamento
 
 ## Convenções de código
-- (Preencher conforme o projeto avança: nomenclatura, estilo, testes obrigatórios, etc.)
+- Nomes de **campo** de model são em português (`nome`, `preco`, `criado_em`, `tipo_cliente`). Nomes de **model**/classe/tabela continuam em inglês (`Product`, `Order`, `Customer`). Valores internos de `enum`/`choices` armazenados no banco continuam em inglês (`'wholesale'`, `'paid'`, `'digital'`) — só o rótulo exibido (`get_<campo>_display()`) é em português. Essa convenção vale pra todo model novo, não só CRM/Financeiro — ver `DATA_MODEL.md`.
 
 ## Comandos úteis
-- (Preencher: como rodar o projeto localmente, rodar testes, rodar migrations)
+- Ativar venv: `.venv\Scripts\Activate.ps1` (PowerShell)
+- Rodar servidor: `python manage.py runserver` (usa `contemplart.settings.dev` por padrão, lê `.env`)
+- Rodar migrations: `python manage.py migrate` (requer Postgres — ver `docker-compose.yml`, precisa `docker compose up -d` antes)
+- Gerar migrations: `python manage.py makemigrations`
 
 ## O que NUNCA fazer
 - Não hardcode conteúdo de layout/marketing em templates — isso deve vir do Wagtail.

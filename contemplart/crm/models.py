@@ -18,11 +18,11 @@ class Interaction(models.Model):
     ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='interactions')
-    type = models.CharField(max_length=20, choices=TYPE_CHOICES)
-    notes = models.TextField(blank=True)
-    date = models.DateTimeField()
-    follow_up_date = models.DateTimeField(null=True, blank=True)
+    cliente = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='interacoes')
+    tipo = models.CharField(max_length=20, choices=TYPE_CHOICES)
+    observacoes = models.TextField(blank=True)
+    data = models.DateTimeField()
+    data_retorno = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return f'{self.get_type_display()} com {self.customer} em {self.date:%d/%m/%Y}'
+        return f'{self.get_tipo_display()} com {self.cliente} em {self.data:%d/%m/%Y}'

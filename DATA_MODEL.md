@@ -2,128 +2,130 @@
 
 > Rascunho de schema. Cada model aqui deve virar um `models.py` real antes do Claude Code escrever qualquer código de catálogo/pedido.
 
+> Convenção (definida durante a implementação do CRM/Financeiro): nomes de **campo** são em português (`nome`, `preco`, `criado_em`...). Nomes de **model**/tabela continuam em inglês (`Product`, `Order`...). Valores internos de `enum`/`choices` (os que vão pro banco, ex.: `'wholesale'`, `'paid'`) continuam em inglês — só o rótulo exibido (`get_..._display()`) é em português. Ver `CLAUDE.md` → Convenções de código.
+
 ## Product
 | Campo | Tipo | Notas |
 |---|---|---|
 | id | UUID/PK | |
-| name | string | |
+| nome | string | |
 | slug | string | único |
-| description | text | |
-| product_type | enum | `physical` \| `digital` |
-| price | decimal | |
-| category | FK Category | |
+| descricao | text | |
+| tipo_produto | enum | `physical` \| `digital` |
+| preco | decimal | |
+| categoria | FK Category | |
 | material | enum | `gesso` \| `resina` \| `pla` \| null (digital) |
-| stock_quantity | int | null se digital |
-| digital_file | FK DigitalAsset | null se físico |
-| images | M2M/related ProductImage | |
-| active | bool | |
-| wholesale_price | decimal | null = sem preço de atacado específico; se preenchido, usado quando `customer.customer_type == 'wholesale'` |
+| quantidade_estoque | int | null se digital |
+| arquivo_digital | FK DigitalAsset | null se físico |
+| imagens | M2M/related ProductImage | |
+| ativo | bool | |
+| preco_atacado | decimal | null = sem preço de atacado específico; se preenchido, usado quando `cliente.tipo_cliente == 'wholesale'` |
 
 ## ProductVariant
 | Campo | Tipo | Notas |
 |---|---|---|
 | id | UUID/PK | |
-| product | FK Product | |
-| size | string | null se não aplicável |
-| color | string | null se não aplicável |
-| finish | string | acabamento; null se não aplicável |
-| stock_quantity | int | estoque por variação (substitui `Product.stock_quantity` quando produto tem variações) |
-| price_override | decimal | null = usa `product.price` (ou `wholesale_price`) |
+| produto | FK Product | |
+| tamanho | string | null se não aplicável |
+| cor | string | null se não aplicável |
+| acabamento | string | null se não aplicável |
+| quantidade_estoque | int | estoque por variação (substitui `Product.quantidade_estoque` quando produto tem variações) |
+| preco_personalizado | decimal | null = usa `product.preco` (ou `preco_atacado`) |
 
 ## Customer
 | Campo | Tipo | Notas |
 |---|---|---|
 | id | UUID/PK | |
-| user | FK auth.User (1:1) | autenticação |
-| name | string | adicionado no addendum CRM/Financeiro |
+| usuario | FK auth.User (1:1) | autenticação |
+| nome | string | adicionado no addendum CRM/Financeiro |
 | email | string | |
-| phone | string | adicionado no addendum CRM/Financeiro |
-| customer_type | enum | `retail` \| `wholesale` |
-| notes | text | adicionado no addendum CRM/Financeiro |
-| created_at | datetime | |
+| telefone | string | adicionado no addendum CRM/Financeiro |
+| tipo_cliente | enum | `retail` \| `wholesale` |
+| observacoes | text | adicionado no addendum CRM/Financeiro |
+| criado_em | datetime | |
 
 ## Interaction
 | Campo | Tipo | Notas |
 |---|---|---|
 | id | UUID/PK | |
-| customer | FK Customer | |
-| type | enum | `call`, `email`, `whatsapp`, `meeting` |
-| notes | text | |
-| date | datetime | |
-| follow_up_date | datetime | nullable |
+| cliente | FK Customer | |
+| tipo | enum | `call`, `email`, `whatsapp`, `meeting` |
+| observacoes | text | |
+| data | datetime | |
+| data_retorno | datetime | nullable |
 
 ## AccountPayable (Conta a Pagar)
 | Campo | Tipo | Notas |
 |---|---|---|
 | id | UUID/PK | |
-| description | string | ex: "fornecedor resina" |
-| category | enum | `insumo`, `frete`, `taxa_gateway`, `outro` |
-| amount | decimal | |
-| due_date | date | |
+| descricao | string | ex: "fornecedor resina" |
+| categoria | enum | `insumo`, `frete`, `taxa_gateway`, `outro` |
+| valor | decimal | |
+| data_vencimento | date | |
 | status | enum | `pending`, `paid`, `overdue` |
-| paid_at | datetime | nullable |
+| pago_em | datetime | nullable |
 
 ## AccountReceivable (Conta a Receber)
 | Campo | Tipo | Notas |
 |---|---|---|
 | id | UUID/PK | |
-| order | FK Order | nullable — pode ser receita de atacado fora do site |
-| description | string | |
-| amount | decimal | |
-| due_date | date | |
+| pedido | FK Order | nullable — pode ser receita de atacado fora do site |
+| descricao | string | |
+| valor | decimal | |
+| data_vencimento | date | |
 | status | enum | `pending`, `received`, `overdue` |
-| received_at | datetime | nullable |
+| recebido_em | datetime | nullable |
 
 ## Category
 | Campo | Tipo |
 |---|---|
 | id | UUID/PK |
-| name | string |
+| nome | string |
 | slug | string |
 
 ## DigitalAsset
 | Campo | Tipo | Notas |
 |---|---|---|
 | id | UUID/PK | |
-| file | FileField (S3) | |
-| max_downloads | int | ex: 5 |
-| expires_after_days | int | ex: 7 a partir da compra |
+| arquivo | FileField (S3) | |
+| limite_downloads | int | ex: 5 |
+| dias_para_expirar | int | ex: 7 a partir da compra |
 
 ## Order
 | Campo | Tipo | Notas |
 |---|---|---|
 | id | UUID/PK | |
-| customer | FK Customer | |
-| customer_email | string | |
+| cliente | FK Customer | |
+| email_cliente | string | |
 | status | enum: `pending`, `paid`, `shipped`, `completed`, `cancelled` | |
-| shipping_address | FK Address (null se só digital) | **Pendente**: model `Address` nunca foi definido aqui. Implementado por ora como `TextField` livre (`contemplart/orders/models.py`) — ajustar quando o model `Address` for desenhado (Fase 2 completa) |
-| shipping_cost | decimal (0 se só digital) | |
+| endereco_entrega | FK Address (null se só digital) | **Pendente**: model `Address` nunca foi definido aqui. Implementado por ora como `TextField` livre (`contemplart/orders/models.py`) — ajustar quando o model `Address` for desenhado (Fase 2 completa) |
+| valor_frete | decimal (0 se só digital) | |
 | total | decimal | |
-| created_at | datetime | |
+| criado_em | datetime | |
 
-> Nota: só o essencial de `Order` foi implementado até agora (o suficiente pra `AccountReceivable.order` referenciar) — itens de pedido, checkout, pagamento e entrega digital (Fase 2 completa do TASKS.md) ainda não existem.
+> Nota: só o essencial de `Order` foi implementado até agora (o suficiente pra `AccountReceivable.pedido` referenciar) — itens de pedido, checkout, pagamento e entrega digital (Fase 2 completa do TASKS.md) ainda não existem.
 
 ## OrderItem
 | Campo | Tipo |
 |---|---|
 | id | UUID/PK |
-| order | FK Order |
-| product | FK Product |
-| quantity | int |
-| unit_price | decimal |
+| pedido | FK Order |
+| produto | FK Product |
+| quantidade | int |
+| preco_unitario | decimal |
 
 ## DigitalDownloadLink
 | Campo | Tipo |
 |---|---|
 | id | UUID/PK |
-| order_item | FK OrderItem |
-| signed_url | string |
-| downloads_used | int |
-| expires_at | datetime |
+| item_pedido | FK OrderItem |
+| url_assinada | string |
+| downloads_utilizados | int |
+| expira_em | datetime |
 
 ## Regras derivadas do schema
-- Se `product.product_type == 'digital'` → `stock_quantity` não se aplica; `shipping_cost` do pedido não considera esse item.
+- Se `product.tipo_produto == 'digital'` → `quantidade_estoque` não se aplica; `valor_frete` do pedido não considera esse item.
 - `DigitalDownloadLink` só é criado após `Order.status == 'paid'`.
 - Se `product` tem `ProductVariant`(s), o estoque e preço efetivo vêm da variação escolhida, não do `Product` diretamente.
-- Preço efetivo de um item = `variant.price_override` (se houver) → senão `product.wholesale_price` (se `customer.customer_type == 'wholesale'` e preenchido) → senão `product.price`.
-- Quando `Order.status` muda para `paid`, criar automaticamente uma `AccountReceivable` vinculada (status `received`, `received_at` = data do pagamento). Vendas de atacado fora do site entram como `AccountReceivable` manual, sem `order` vinculado.
+- Preço efetivo de um item = `variant.preco_personalizado` (se houver) → senão `product.preco_atacado` (se `cliente.tipo_cliente == 'wholesale'` e preenchido) → senão `product.preco`.
+- Quando `Order.status` muda para `paid`, criar automaticamente uma `AccountReceivable` vinculada (status `received`, `recebido_em` = data do pagamento). Vendas de atacado fora do site entram como `AccountReceivable` manual, sem `pedido` vinculado.

@@ -27,15 +27,15 @@ class AccountPayable(models.Model):
     ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    description = models.CharField(max_length=255)
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    due_date = models.DateField()
+    descricao = models.CharField(max_length=255)
+    categoria = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+    valor = models.DecimalField(max_digits=10, decimal_places=2)
+    data_vencimento = models.DateField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=PENDING)
-    paid_at = models.DateTimeField(null=True, blank=True)
+    pago_em = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return self.description
+        return self.descricao
 
 
 class AccountReceivable(models.Model):
@@ -49,14 +49,14 @@ class AccountReceivable(models.Model):
     ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    order = models.ForeignKey(
-        Order, on_delete=models.PROTECT, related_name='receivables', null=True, blank=True
+    pedido = models.ForeignKey(
+        Order, on_delete=models.PROTECT, related_name='contas_a_receber', null=True, blank=True
     )
-    description = models.CharField(max_length=255)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    due_date = models.DateField()
+    descricao = models.CharField(max_length=255)
+    valor = models.DecimalField(max_digits=10, decimal_places=2)
+    data_vencimento = models.DateField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=PENDING)
-    received_at = models.DateTimeField(null=True, blank=True)
+    recebido_em = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return self.description
+        return self.descricao

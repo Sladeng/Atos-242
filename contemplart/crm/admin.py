@@ -5,6 +5,6 @@ from .models import Interaction
 
 @admin.register(Interaction)
 class InteractionAdmin(admin.ModelAdmin):
-    list_display = ('customer', 'type', 'date', 'follow_up_date')
-    list_filter = ('type',)
-    search_fields = ('customer__name', 'notes')
+    list_display = ('cliente', 'tipo', 'data', 'data_retorno')
+    list_filter = ('tipo',)
+    search_fields = ('cliente__nome', 'observacoes')
