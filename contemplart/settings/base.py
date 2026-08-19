@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'contemplart.shipping',
     'contemplart.cms',
     'contemplart.accounts',
+    'contemplart.crm',
+    'contemplart.finance',
 ]
 
 MIDDLEWARE = [
