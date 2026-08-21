@@ -7,7 +7,7 @@
 - **Armazenamento de arquivos digitais**: S3 (ou equivalente) com URLs assinadas e expiração
 - **Pagamento**: Stripe (avaliar suporte a produto digital + físico no mesmo checkout)
 - **Frontend**: (Django+Wagtail templates)
-- **Deploy**: a decidir (Railway, Render, AWS ECS, Google Cloud Run)
+- **Deploy**: Railway (Postgres addon do próprio Railway — injeta `DATABASE_URL`; `gunicorn` + `whitenoise` para servir estático; ver `Procfile` e `contemplart/settings/prod.py`)
 
 
 ## Estrutura de apps Django (proposta)

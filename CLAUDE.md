@@ -27,6 +27,8 @@ Leia, nesta ordem:
 - Rodar servidor: `python manage.py runserver` (usa `contemplart.settings.dev` por padrão, lê `.env`)
 - Rodar migrations: `python manage.py migrate` (requer Postgres — ver `docker-compose.yml`, precisa `docker compose up -d` antes)
 - Gerar migrations: `python manage.py makemigrations`
+- Checklist de produção: `DJANGO_SETTINGS_MODULE=contemplart.settings.prod python manage.py check --deploy`
+- Deploy: Railway lê `railpack.json` (build: `pip install` + `collectstatic`; start: `migrate` + `gunicorn`). `Procfile` existe como fallback, mas o Railpack não usa Procfile pra apps Django — a fonte de verdade é o `railpack.json`.
 
 ## O que NUNCA fazer
 - Não hardcode conteúdo de layout/marketing em templates — isso deve vir do Wagtail.

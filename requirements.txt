@@ -4,3 +4,6 @@ wagtail
 psycopg2-binary
 django-storages
 python-dotenv
+gunicorn
+whitenoise
+dj-database-url

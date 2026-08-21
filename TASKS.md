@@ -66,7 +66,8 @@ Backlog sequencial. Cada sessão do Claude Code deve atacar 1–3 itens marcados
 - [ ] Testes: link expirado bloqueia acesso; limite de downloads respeitado
 
 ## Fase 8 — Polimento / lançamento
-- [ ] Emails transacionais (confirmação de pedido, link de download)
+- [ ] Emails transacionais (confirmação de pedido, link de download) — hoje `MAILERS` usa o backend de console (dev-only), precisa de um provedor real antes do deploy
 - [ ] Revisão de todas as regras do RULES.md contra o comportamento real
+- [x] Config de deploy Railway pronta (`Procfile`, `railpack.json`, `settings/prod.py`, `whitenoise`, `dj-database-url`) — falta só rodar o primeiro deploy de verdade e confirmar Python 3.13 builda ok no Railpack
 - [ ] Deploy em ambiente de produção
 - [ ] Teste de compra ponta a ponta (físico + digital no mesmo pedido)
