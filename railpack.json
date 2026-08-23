@@ -5,10 +5,6 @@
     "python": "3.13"
   },
   "steps": {
-    "install": {
-      "inputs": [{ "local": true, "include": ["."] }],
-      "commands": ["pip install -r requirements.txt"]
-    },
     "build": {
       "inputs": [{ "step": "install" }],
       "commands": ["python manage.py collectstatic --noinput"]
