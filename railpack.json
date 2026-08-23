@@ -6,7 +6,7 @@
   },
   "steps": {
     "build": {
-      "inputs": [{ "step": "install" }],
+      "inputs": [{ "step": "install" }, { "local": true, "include": ["."] }],
       "commands": ["python manage.py collectstatic --noinput"]
     }
   },
