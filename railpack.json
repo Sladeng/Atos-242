@@ -11,6 +11,6 @@
     }
   },
   "deploy": {
-    "startCommand": "python manage.py migrate --noinput && gunicorn contemplart.wsgi:application"
+    "startCommand": "python manage.py migrate --noinput && (python manage.py createsuperuser --noinput || true) && gunicorn contemplart.wsgi:application"
   }
 }
