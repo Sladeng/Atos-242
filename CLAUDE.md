@@ -28,6 +28,7 @@ Leia, nesta ordem:
 - Rodar migrations: `python manage.py migrate` (requer Postgres — ver `docker-compose.yml`, precisa `docker compose up -d` antes)
 - Gerar migrations: `python manage.py makemigrations`
 - Popular banco com dados de demonstração (idempotente, pode rodar de novo): `python manage.py seed_demo` — em produção: `railway ssh` e depois o mesmo comando
+- Importar planilhas (clientes/produtos/vendas, idempotente): `python manage.py importar_dados` (lê `contemplart/dados/*.csv`, ou `--dir <pasta>`). A pasta `dados/` fica fora do git — tem dados reais de clientes e o repositório é público
 - Checklist de produção: `DJANGO_SETTINGS_MODULE=contemplart.settings.prod python manage.py check --deploy`
 - Deploy: Railway lê `railpack.json` (build: `pip install` + `collectstatic`; start: `migrate` + `gunicorn`). `Procfile` existe como fallback, mas o Railpack não usa Procfile pra apps Django — a fonte de verdade é o `railpack.json`.
 

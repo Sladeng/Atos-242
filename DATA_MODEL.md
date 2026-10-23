@@ -13,13 +13,16 @@
 | descricao | text | |
 | tipo_produto | enum | `physical` \| `digital` |
 | preco | decimal | |
-| categoria | FK Category | |
+| categoria | FK Category | nullable — produtos importados da planilha ainda não têm categoria |
 | material | enum | `gesso` \| `resina` \| `pla` \| null (digital) |
 | quantidade_estoque | int | null se digital |
-| arquivo_digital | FK DigitalAsset | null se físico |
-| imagens | M2M/related ProductImage | |
+| arquivo_digital | FK DigitalAsset | null se físico — **ainda não implementado** (DigitalAsset pendente) |
+| imagens | M2M/related ProductImage | **ainda não implementado** |
 | ativo | bool | |
 | preco_atacado | decimal | null = sem preço de atacado específico; se preenchido, usado quando `cliente.tipo_cliente == 'wholesale'` |
+| custo | decimal | nullable — custo de produção (veio da planilha de produtos) |
+| peso_g | decimal | nullable — peso em gramas |
+| tempo_impressao | duration | nullable — tempo de impressão 3D |
 
 ## ProductVariant
 | Campo | Tipo | Notas |
@@ -40,6 +43,9 @@
 | nome | string | adicionado no addendum CRM/Financeiro |
 | email | string | |
 | telefone | string | adicionado no addendum CRM/Financeiro |
+| endereco | text | blank — adicionado na importação da planilha de clientes |
+| cpf_cnpj | string | blank — adicionado na importação da planilha de clientes |
+| pessoa_contato | string | blank — nome do contato (ex.: pároco, comprador); adicionado na importação |
 | tipo_cliente | enum | `retail` \| `wholesale` |
 | observacoes | text | adicionado no addendum CRM/Financeiro |
 | criado_em | datetime | |
@@ -101,9 +107,10 @@
 | endereco_entrega | FK Address (null se só digital) | **Pendente**: model `Address` nunca foi definido aqui. Implementado por ora como `TextField` livre (`contemplart/orders/models.py`) — ajustar quando o model `Address` for desenhado (Fase 2 completa) |
 | valor_frete | decimal (0 se só digital) | |
 | total | decimal | |
+| data_venda | date | nullable — data real da venda (vendas importadas da planilha podem não ter); `criado_em` é a data do registro no sistema |
 | criado_em | datetime | |
 
-> Nota: só o essencial de `Order` foi implementado até agora (o suficiente pra `AccountReceivable.pedido` referenciar) — itens de pedido, checkout, pagamento e entrega digital (Fase 2 completa do TASKS.md) ainda não existem.
+> Nota: `Order` e `OrderItem` estão implementados (este último criado para a importação de vendas da planilha — cada linha de `vendas.csv` vira um `Order` com um `OrderItem`, porque o status de pagamento varia por linha). Checkout, pagamento e entrega digital (Fase 2 completa do TASKS.md) ainda não existem.
 
 ## OrderItem
 | Campo | Tipo |

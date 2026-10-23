@@ -13,18 +13,20 @@ Backlog sequencial. Cada sessão do Claude Code deve atacar 1–3 itens marcados
 - [ ] Confirmar que o projeto sobe local (`runserver`) sem erros
 
 ## Fase 1 — Models de catálogo
-- [ ] Model `Category`
-- [ ] Model `Product` (com `product_type`, campos físico/digital conforme DATA_MODEL.md)
+- [x] Model `Category`
+- [x] Model `Product` (com `product_type`, campos físico/digital conforme DATA_MODEL.md) — falta `arquivo_digital`, imagens e `ProductVariant`
 - [ ] Model `DigitalAsset`
-- [ ] Migrations + registrar tudo no `admin.py` pra inspeção manual
+- [x] Migrations + registrar tudo no `admin.py` pra inspeção manual (Category/Product)
 - [ ] Popular alguns produtos de teste via admin (estender `seed_demo` quando `Product`/`Category` existirem)
 
 ## Fase 2 — Models de pedido
 - [ ] Model `Order`
-- [ ] Model `OrderItem`
+- [x] Model `OrderItem`
 - [ ] Model `DigitalDownloadLink`
 - [ ] Migrations + admin
 - [ ] Testes unitários: regra "estoque não fica negativo", "digital não tem frete"
+
+- [x] Comando `importar_dados`: importa clientes, produtos e vendas dos CSVs em `contemplart/dados/` (pasta fora do git — dados reais de clientes)
 
 ## Fase 2.5 — CRM e Financeiro (MVP)
 - [x] Model `Customer` (adicionar campos `name`, `phone`, `notes` — ver DATA_MODEL.md)

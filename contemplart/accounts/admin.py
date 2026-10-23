@@ -7,4 +7,4 @@ from .models import Customer
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ('nome', 'email', 'tipo_cliente', 'criado_em')
     list_filter = ('tipo_cliente',)
-    search_fields = ('nome', 'email', 'telefone')
+    search_fields = ('nome', 'email', 'telefone', 'cpf_cnpj', 'pessoa_contato')

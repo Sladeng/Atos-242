@@ -9,3 +9,5 @@ media/
 .DS_Store
 install_log.txt
 .claude/scheduled_tasks.lock
+# Planilhas com dados reais de clientes - nao versionar (repo publico)
+contemplart/dados/
