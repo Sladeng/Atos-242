@@ -17,7 +17,7 @@ Backlog sequencial. Cada sessão do Claude Code deve atacar 1–3 itens marcados
 - [ ] Model `Product` (com `product_type`, campos físico/digital conforme DATA_MODEL.md)
 - [ ] Model `DigitalAsset`
 - [ ] Migrations + registrar tudo no `admin.py` pra inspeção manual
-- [ ] Popular alguns produtos de teste via admin
+- [ ] Popular alguns produtos de teste via admin (estender `seed_demo` quando `Product`/`Category` existirem)
 
 ## Fase 2 — Models de pedido
 - [ ] Model `Order`
@@ -69,5 +69,6 @@ Backlog sequencial. Cada sessão do Claude Code deve atacar 1–3 itens marcados
 - [ ] Emails transacionais (confirmação de pedido, link de download) — hoje `MAILERS` usa o backend de console (dev-only), precisa de um provedor real antes do deploy
 - [ ] Revisão de todas as regras do RULES.md contra o comportamento real
 - [x] Config de deploy Railway pronta (`Procfile`, `railpack.json`, `settings/prod.py`, `whitenoise`, `dj-database-url`) — falta só rodar o primeiro deploy de verdade e confirmar Python 3.13 builda ok no Railpack
+- [x] Comando `seed_demo` (`contemplart/accounts/management/commands/`) com dados de demonstração de clientes, interações, pedidos e financeiro
 - [ ] Deploy em ambiente de produção
 - [ ] Teste de compra ponta a ponta (físico + digital no mesmo pedido)
