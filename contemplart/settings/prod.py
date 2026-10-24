@@ -14,6 +14,19 @@ SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
+# Com DEBUG=False o Django não escreve erros 500 no console; sem isso o
+# traceback não aparece nos logs do Railway.
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {'class': 'logging.StreamHandler'},
+    },
+    'loggers': {
+        'django': {'handlers': ['console'], 'level': 'WARNING'},
+    },
+}
+
 # Valor conservador para o primeiro deploy — aumentar depois de confirmar
 # que HTTPS está estável (subir demais cedo demais pode travar acesso
 # via HTTP caso algo dê errado com o certificado/proxy).
