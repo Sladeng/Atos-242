@@ -31,6 +31,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Exigido pela busca do Wagtail (SearchVectorField/GinIndex) no Postgres.
+    'django.contrib.postgres',
 
     'rest_framework',
 
