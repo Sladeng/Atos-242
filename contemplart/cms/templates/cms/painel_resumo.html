@@ -1,0 +1,47 @@
+{% load wagtailadmin_tags l10n %}
+{% panel id="resumo" heading="Resumo" classname="w-panel--dashboard" %}
+    <section class="w-summary" aria-label="Resumo">
+        <ul class="w-summary__list">
+            <li>
+                <a href="{{ url_pedidos }}?status=pending">
+                    {% icon name="clipboard-list" %}
+                    <span><strong>{{ pedidos_pendentes }}</strong> pedido{{ pedidos_pendentes|pluralize }} pendente{{ pedidos_pendentes|pluralize }}</span>
+                </a>
+            </li>
+            <li>
+                {% icon name="success" %}
+                <span><strong>R$ {{ vendas_mes|floatformat:"2g" }}</strong> em vendas pagas em {{ mes|date:"F" }}</span>
+            </li>
+            {% if ver_financeiro %}
+                <li>
+                    {% icon name="doc-full" %}
+                    <span><strong>R$ {{ a_receber|floatformat:"2g" }}</strong> a receber</span>
+                </li>
+                <li>
+                    {% icon name="warning" %}
+                    <span><strong>{{ contas_vencidas }}</strong> conta{{ contas_vencidas|pluralize }} a pagar vencida{{ contas_vencidas|pluralize }} (R$ {{ valor_vencido|floatformat:"2g" }})</span>
+                </li>
+            {% endif %}
+        </ul>
+    </section>
+
+    <p><a class="button bicolor button--icon" href="{{ url_novo_pedido }}">{% icon name="plus" wrapped=1 %}Novo pedido</a></p>
+
+    {% if ultimos_pendentes %}
+        <h3>Pedidos pendentes mais recentes</h3>
+        <table class="listing">
+            <thead>
+                <tr><th>Cliente</th><th>Data da venda</th><th>Total</th></tr>
+            </thead>
+            <tbody>
+                {% for pedido in ultimos_pendentes %}
+                    <tr>
+                        <td><a href="{% url 'order:edit' pedido.pk|unlocalize %}">{{ pedido.cliente }}</a></td>
+                        <td>{{ pedido.data_venda|date:"d/m/Y"|default:"—" }}</td>
+                        <td>R$ {{ pedido.total|floatformat:"2g" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endpanel %}

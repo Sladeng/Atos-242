@@ -4,3 +4,4 @@ from django.apps import AppConfig
 class OrdersConfig(AppConfig):
     name = 'contemplart.orders'
     label = 'orders'
+    verbose_name = 'Pedidos'

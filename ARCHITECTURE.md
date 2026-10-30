@@ -10,6 +10,13 @@
 - **Deploy**: Railway (Postgres addon do próprio Railway — injeta `DATABASE_URL`; `gunicorn` + `whitenoise` para servir estático; ver `Procfile` e `contemplart/settings/prod.py`)
 
 
+## Painel de gestão
+- `/painel/` é o painel do Wagtail, usado pela equipe (perfil não-dev) para produtos, categorias, clientes, interações, pedidos e financeiro. Cada model aparece via `ModelViewSet` registrado no `wagtail_hooks.py` do próprio app.
+- Tela inicial do painel tem um resumo somente leitura (`cms/wagtail_hooks.py`): pedidos pendentes, vendas pagas do mês e, para quem tem permissão, contas a receber e contas a pagar vencidas.
+- Perfil **Operador** (grupo criado/atualizado a cada `migrate`, ver `cms/apps.py`): vê e cadastra produtos, clientes, interações e pedidos; sem acesso ao financeiro, a usuários nem ao `/admin/`.
+- `/admin/` (admin do Django) continua existindo para uso técnico.
+- Idioma `pt-br`, fuso `America/Sao_Paulo`.
+
 ## Estrutura de apps Django (proposta)
 ```
 contemplart/

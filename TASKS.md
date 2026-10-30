@@ -34,7 +34,7 @@ Backlog sequencial. Cada sessão do Claude Code deve atacar 1–3 itens marcados
 - [x] Model `AccountPayable`
 - [x] Model `AccountReceivable` (exigiu criar `orders.Order` mínimo antes — ver nota em DATA_MODEL.md)
 - [x] Migrations + admin para os models acima
-- [ ] Signal/hook: `Order.status → paid` cria `AccountReceivable` automaticamente
+- [x] Signal/hook: `Order.status → paid` cria `AccountReceivable` automaticamente
 - [ ] Tela/endpoint de dashboard: total a receber, total a pagar, receita do mês, contas vencidas
 - [ ] Testes: pagamento de pedido não duplica `AccountReceivable`; conta vencida aparece como `overdue`
 
@@ -47,10 +47,17 @@ Backlog sequencial. Cada sessão do Claude Code deve atacar 1–3 itens marcados
 - [ ] Testes de API para os endpoints acima
 
 ## Fase 4 — Wagtail / Layout
-- [ ] Instalar e configurar Wagtail no projeto
+- [x] Instalar e configurar Wagtail no projeto
+- [x] Painel de gestão em `/painel/` (produtos, clientes, pedidos com itens, financeiro, resumo na home, perfil Operador)
 - [ ] Criar página institucional (história da marca) editável via painel
 - [ ] Criar blocos de conteúdo para a home (banners, seções, ordem)
 - [ ] Validar: editar layout no painel sem precisar de deploy
+
+## Fase 4.5 — Loja (próxima etapa)
+- [ ] Páginas públicas: catálogo e página de produto
+- [ ] Cadastro/login de cliente (cria `Customer` com `usuario`)
+- [ ] Carrinho e envio de pedido (entra como `pending`, sem pagamento online — ver RULES.md)
+- [ ] Imagens de produto (`ProductImage`) — precisa decidir armazenamento (S3 ou volume), disco do Railway é efêmero
 
 ## Fase 5 — Frete (produtos físicos)
 - [ ] Definir integração (Melhor Envio / Correios / manual)

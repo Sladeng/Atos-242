@@ -10,7 +10,8 @@ Regras que não são óbvias a partir do código e devem ser respeitadas em qual
 ## Checkout / Pedido
 - Um pedido pode misturar itens físicos e digitais.
 - Frete só é calculado sobre o subtotal dos itens físicos.
-- Pedido só muda para `paid` após confirmação real do gateway de pagamento (webhook), nunca no clique de "finalizar compra".
+- Pedido nunca muda para `paid` no clique de "finalizar compra" do cliente.
+- **v1 (decisão de 2026-10-30): sem pagamento online.** O pedido da loja entra como `pending`; o pagamento (Pix, boleto etc.) é combinado fora do site e a equipe marca o pedido como `paid` manualmente no painel. Quando o Stripe entrar (Fase 6), `paid` passa a vir só do webhook.
 
 ## Entrega digital
 - Link de download só é gerado após `Order.status == 'paid'`.
@@ -38,6 +39,6 @@ Regras que não são óbvias a partir do código e devem ser respeitadas em qual
 - Todo cliente de atacado (`customer_type == wholesale`) deve ter ao menos um registro de `Interaction` antes de virar `Order` — histórico mínimo de negociação.
 
 ## Financeiro
-- Toda venda paga no site gera `AccountReceivable` automaticamente — nunca lançar manualmente uma receita que já existe como `Order` pago (evitar duplicidade).
+- Toda venda paga no site gera `AccountReceivable` automaticamente (signal em `finance/signals.py`, uma por pedido; editar o pedido só atualiza o valor) — nunca lançar manualmente uma receita que já existe como `Order` pago (evitar duplicidade).
 - `AccountPayable` com `due_date` no passado e `status == pending` deve aparecer como `overdue` no dashboard (calculado, não é preciso job assíncrono no MVP).
 - Dashboard financeiro é somente leitura — nenhuma tela de dashboard deve permitir editar valores diretamente; edição sempre pelas telas de Conta a Pagar/Receber.

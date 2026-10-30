@@ -14,7 +14,7 @@ from django.utils.dateparse import parse_duration
 from django.utils.text import slugify
 
 from contemplart.accounts.models import Customer
-from contemplart.catalog.models import Product
+from contemplart.catalog.models import Product, slug_unico
 from contemplart.finance.models import AccountReceivable
 from contemplart.orders.models import Order, OrderItem
 
@@ -187,7 +187,7 @@ class Command(BaseCommand):
                 id=import_id(chave),
                 defaults={
                     'nome': nome,
-                    'slug': self.slug_unico(nome, import_id(chave)),
+                    'slug': slug_unico(Product, nome, import_id(chave)),
                     'tipo_produto': Product.PHYSICAL,
                     'preco': preco,
                     'preco_atacado': preco_atacado,
@@ -198,13 +198,6 @@ class Command(BaseCommand):
             )
             produtos[chave_nome(nome)] = produto
         return produtos
-
-    def slug_unico(self, nome, produto_id):
-        base = slugify(nome)[:240] or 'produto'
-        slug, n = base, 2
-        while Product.objects.filter(slug=slug).exclude(id=produto_id).exists():
-            slug, n = f'{base}-{n}', n + 1
-        return slug
 
     def importar_vendas(self, linhas, clientes, produtos):
         # A planilha não tem ID_VENDA preenchido; a chave da venda é o
