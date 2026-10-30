@@ -17,6 +17,12 @@
 - `/admin/` (admin do Django) continua existindo para uso técnico.
 - Idioma `pt-br`, fuso `America/Sao_Paulo`.
 
+## Uploads (imagens) — decisão de 2026-10-30
+- Imagens enviadas pelo painel (Wagtail Images, fotos de produto) ficam em `MEDIA_ROOT`, que em produção é um **volume do Railway** montado no serviço (o Railway injeta `RAILWAY_VOLUME_MOUNT_PATH`; `MEDIA_ROOT` explícito tem prioridade). Sem volume, o disco do Railway é apagado a cada deploy.
+- `/media/` é servido pelo próprio Django (`django.views.static.serve` em `contemplart/urls.py`), também em produção — o whitenoise só serve estáticos.
+- Limitações aceitas na v1: o volume prende o serviço a uma única réplica, o deploy com volume tem alguns segundos de indisponibilidade, e cada imagem servida passa pelo gunicorn. Se o tráfego crescer, migrar uploads para S3/R2 (`django-storages`) copiando o conteúdo do volume.
+- Arquivos digitais pagos **não** usam o volume: continuam no S3 com URL assinada (ver acima e RULES.md).
+
 ## Estrutura de apps Django (proposta)
 ```
 contemplart/

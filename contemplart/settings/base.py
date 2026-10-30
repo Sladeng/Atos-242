@@ -151,8 +151,16 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# Uploads (imagens do Wagtail/produtos). No Railway ficam num volume
+# persistente — o Railway injeta RAILWAY_VOLUME_MOUNT_PATH quando há volume
+# montado no serviço; sem volume o disco é apagado a cada deploy.
+# Arquivos digitais pagos NÃO vão aqui (são privados, ficam no S3).
 MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = Path(
+    os.environ.get('MEDIA_ROOT')
+    or os.environ.get('RAILWAY_VOLUME_MOUNT_PATH')
+    or BASE_DIR / 'media'
+)
 
 STORAGES = {
     'default': {

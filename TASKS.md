@@ -57,7 +57,9 @@ Backlog sequencial. Cada sessão do Claude Code deve atacar 1–3 itens marcados
 - [ ] Páginas públicas: catálogo e página de produto
 - [ ] Cadastro/login de cliente (cria `Customer` com `usuario`)
 - [ ] Carrinho e envio de pedido (entra como `pending`, sem pagamento online — ver RULES.md)
-- [ ] Imagens de produto (`ProductImage`) — precisa decidir armazenamento (S3 ou volume), disco do Railway é efêmero
+- [x] Armazenamento de uploads: volume do Railway em `MEDIA_ROOT`, `/media/` servido pelo Django (ver ARCHITECTURE.md)
+- [ ] Criar o volume no serviço do Railway (mount path `/data`)
+- [ ] Imagens de produto (`ProductImage`)
 
 ## Fase 5 — Frete (produtos físicos)
 - [ ] Definir integração (Melhor Envio / Correios / manual)
